@@ -9,9 +9,9 @@ const Todo = ({shortText}) => {
             <Shorttext shortText={shortText} />
             <div className="controls">
                 <div className="btnRow">
-                    <Button {...{myClass:"test", myText: "Edit"}} />
-                    <Button {...{myClass:"test", myText: "Check"}} />
-                    <Button {...{myClass:"test", myText: "Delete"}} />
+                    <Button key={1} {...{myClass:"test", myText: "Edit"}} />
+                    <Button key={2} {...{myClass:"test", myText: "Check"}} />
+                    <Button key={3} {...{myClass:"test", myText: "Delete"}} />
                 </div>
                 <Datepicker2 />
             </div>

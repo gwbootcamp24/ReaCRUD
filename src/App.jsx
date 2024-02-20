@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import Button from './components/Button'
 import TodoList from './components/TodoList'
+import Listhead from './components/Listhead'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -14,12 +15,18 @@ function App() {
 
   ]
 
+  const listTitle="MyTiltle for the List"
+
+  const testListe={
+    title: listTitle,
+    todos: testTodos
+  }
+
   return (
     <>
 
-
-      <h1>Todo List</h1>
-        <TodoList data={testTodos} />
+      <Listhead listTitle={listTitle} />
+        <TodoList data={testListe} />
          
     </>
   )
