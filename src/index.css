@@ -61,6 +61,7 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
@@ -95,7 +96,7 @@ div.btnRow{
   gap: 10px;
 }
 
-.todoWrapper button{
+.todoWrapper button, .listTop button{
   background-color: cadetblue;
   padding: 10px;
   line-height: 1;
@@ -104,6 +105,21 @@ div.btnRow{
   color: #213547;
   align-self: flex-start;
 } 
+
+
+.listTop{
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+} 
+
+
+.listTop button{
+  align-self: center;
+} 
+
+
+
 
 @media screen and (max-width: 600px) {
   .todoWrapper{

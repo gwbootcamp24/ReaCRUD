@@ -1,12 +1,29 @@
 import Todo from './Todo'
+import Listbody from './Listbody'
 
-const TodoList = ({data}) => {
-    return data.map((todo, index) => {
-        
-        // Curly brace
-        return <Todo shortText={todo.shortText} id={index} />;
-       
-    })
+const TodoList = (
+    data,
+    onChangeTask,
+    onDeleteTask
+      
+    ) => {
+    return ( 
+        <>
+            <Listbody>
+                {data.data.todos.map((todo, index) => {
+                    return (
+                    <Todo key={index} 
+                        onChange={onChangeTask}
+                        onDelete={onDeleteTask} 
+                        shortText={todo.shortText} 
+                        id={index} 
+                        todo={todo}
+                    />);
+                })}
+            </Listbody>
+        </>
+
+    )
 }
 
 export default TodoList; 
