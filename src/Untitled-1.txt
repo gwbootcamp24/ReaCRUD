@@ -1,0 +1,9 @@
+Frage:
+React hat kein Konzept für "bevor die Komponente Mountet" und "nachdem die Komponente unmountet"
+
+React Strict ausschalten für Netzwerkanfragen,  damit nicht alles doppelt angefragt wird. Der Modus macht nämlich alles doppelt
+
+setInterval wird mit clearInterval in useEffect kombiniert damit nicht immer neue Intervals erzeugt werden,
+genauso mit setTimeout.
+
+return Part von 
