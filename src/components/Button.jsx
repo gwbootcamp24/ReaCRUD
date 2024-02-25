@@ -1,6 +1,6 @@
-const Button = ({onClick, myClass, myText}) => {
+const Button = ({onClick, myClass, myText, isChecked}) => {
     return (
-        <button onClick={onClick} className={myClass}>{myText}</button>
+        <button onClick={onClick} className={myClass + ' ' +  (isChecked === true && 'isChecked')}>{myText}</button>
     )
 }
 

@@ -9,18 +9,21 @@ import Listhead from './components/Listhead'
 
 
 
-function todosReducer(tasks, action) {
-  console.log("fffffffffffffffffffffffffffff", tasks)
+function todosReducer(curList, action) {
   switch (action.type) {
-    case 'added': {
-      return [...tasks, {
-        id: action.id,
-        text: action.text,
-        done: false
-      }];
+    case 'addTodo': {
+      const newTodo =     { id: crypto.randomUUID(), shortText: "--was wollte ich nochmal machen?--", done: false };
+
+      const changedList = curList.todos.concat(newTodo)
+      return {
+        id: curList.id,
+        title: curList.title,
+        todos: changedList
+
+      }
     }
     case 'changed': {
-      const changedList = tasks.todos.map(t => {
+      const changedList = curList.todos.map(t => {
         if (t.id === action.task.id) {
           return action.task;
         } else {
@@ -28,7 +31,20 @@ function todosReducer(tasks, action) {
         }
       });
       return {
-        title: "sioldfiuzahsi",
+        title: curList.title,
+        todos: changedList
+
+      }
+        
+
+    }
+    case 'changedTitle': {
+      console.log(action)
+      const changedList = curList.todos.map(t => {
+        return t;
+      });
+      return {
+        title: action.task.title,
         todos: changedList
 
       }
@@ -36,13 +52,59 @@ function todosReducer(tasks, action) {
 
     }
     case 'deleted': {
-      return tasks.filter(t => t.id !== action.id);
+      const changedList = curList.todos.filter ((t) => t.id !== action.id);
+      return {
+        title: curList.title,
+        todos: changedList
+      } 
     }
+
+    case "nextList": {
+      let thisId = action.allLists.findIndex((list) => list.id === action.currentList.id)
+      return(action.allLists[(thisId + 1) % action.allLists.length])
+    } 
+    
+    case "lastList": {
+      let thisId = action.allLists.findIndex((list) => list.id === action.currentList.id)
+      return(action.allLists[(thisId + action.allLists.length - 1) % action.allLists.length ])
+    } 
+
+
     default: {
       throw Error('Unknown action: ' + action.type);
     }
   }
 }
+
+// function todoListsReducer(lists, action) {
+//   // console.log("fffffffffffffffffffffffffffff", lists)
+//   switch (action.type) {
+//     case "addList": {
+//       const newTodo = { id: crypto.randomUUID(), shortText: "", done: false };
+
+//       const newList = {
+//         id: crypto.randomUUID(),
+//         title: "",
+//         todos: [newTodo]
+//       }
+//       const changedLists = lists.concat(newList)
+    
+//       return(changedLists)
+//     } 
+//     case "nextList": {
+
+//       const nextList = {
+//         id: crypto.randomUUID(),
+//         title: "",
+//         todos: [newTodo]
+//       }
+//       const changedLists = lists.concat(newList)
+    
+//       return(changedLists)
+//     } 
+
+//   } 
+// }
 
 
 
@@ -73,34 +135,51 @@ function App() {
   const listTitle2="2.List"
   
   const testListe={
+    id:12436,
     title: listTitle,
     todos: testTodos
   }
 
   const testListe2={
+    id:26386,
     title: listTitle2,
     todos: testTodos2
   }
 
-  const testListen = [testListe, testListe2]
+  const allLists = [testListe, testListe2]
   
   
   const [list, dispatch] = useReducer(
     todosReducer,
-    testListen[0]
+    allLists[0]
   );
+
+  // const [todoListen, dispatchL] = useReducer(
+  //   todoListsReducer,
+  //   allLists
+  // );
 
 
 
   let initialListId = 0;
 
   
-    const [list2, setList] = useState(testListen[0]);
+    // const [list2, setList] = useState(allLists[0]);
   
-    function handleClick() {
-      let nextListId = (initialListId + 1) % 2;
-      let nextList = testListen[nextListId];
-      setList(nextList);
+    // function handleClick() {
+    //   let nextListId = (initialListId + 1) % 2;
+    //   let nextList = allLists[nextListId];
+    //   setList(nextList);
+    // }
+
+
+    
+    function handlePageList( currentList, allLists, direction ) {
+      dispatch({
+        type: (direction === "left")?'lastList':'nextList',
+        allLists: allLists,
+        currentList: currentList
+      });
     }
 
     function handleChangeTodo(todo) {
@@ -109,19 +188,39 @@ function App() {
         task: todo
       });
     }
-  
+
+    function handleChangeTitle(todo) {
+      dispatch({
+        type: 'changedTitle',
+        task: todo
+      });
+    }
+
     function handleDeleteTodo(taskId) {
       dispatch({
         type: 'deleted',
         id: taskId
       });
     }
-  
+
+    function handleAddTodo(currentList) {
+      dispatch({
+        type: 'addTodo',
+        id: currentList
+      });
+    }
+
+    function handleAddList(currentList) {
+      dispatch({
+        type: 'addList',
+        id: currentList
+      });
+    }
+// console.log("currentList",{list});, onNextList
   return (
     <>
-      <button key={23232}  onClick={handleClick}>ergewrgergerg</button>
-      <Listhead listTitle={listTitle} />
-        <TodoList data={list}  onChangeTodo={handleChangeTodo} onDeleteTodo={handleDeleteTodo} />
+      <Listhead currentList={list} onAddList={handleAddList} allLists={allLists} onPageList={handlePageList} onChangeTitle={handleChangeTitle}  />
+        <TodoList currentList={list} onChangeTodo={handleChangeTodo} onDeleteTodo={handleDeleteTodo} onAddTodo={handleAddTodo} />
          
     </>
   )

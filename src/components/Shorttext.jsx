@@ -1,7 +1,3 @@
-
-
-
-
 const Shorttext = ({shortText, isEditing, setIsEditing,onChange, todo}) => {
   // console.log(onChange)
 

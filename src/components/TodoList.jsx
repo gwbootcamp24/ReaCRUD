@@ -1,14 +1,15 @@
 import Todo from './Todo'
 import Listbody from './Listbody'
+import Button from './Button'
 
-const TodoList = ( {data, onChangeTodo, onDeleteTodo} ) => {
+const TodoList = ( {currentList, onChangeTodo, onDeleteTodo, onAddTodo} ) => {
 
-  console.log("data",data)
 
     return ( 
         <>
+            <Button key={"addNewTodo"} {...{myClass:"test", myText: "Add todo"}} onClick={() => onAddTodo(currentList)} />
             <Listbody>
-                {data.todos.map((todo, index) => {
+                {currentList.todos.map((todo, index) => {
                     return (
                     <Todo key={index} 
                         onChange={onChangeTodo}
