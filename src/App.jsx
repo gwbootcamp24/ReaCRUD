@@ -1,5 +1,6 @@
 import { useReducer } from 'react';
 import { useState } from 'react'
+import { useEffect } from 'react'
 import './App.css'
 import Button from './components/Button'
 import TodoList from './components/TodoList'
@@ -76,38 +77,6 @@ function todosReducer(curList, action) {
   }
 }
 
-// function todoListsReducer(lists, action) {
-//   // console.log("fffffffffffffffffffffffffffff", lists)
-//   switch (action.type) {
-//     case "addList": {
-//       const newTodo = { id: crypto.randomUUID(), shortText: "", done: false };
-
-//       const newList = {
-//         id: crypto.randomUUID(),
-//         title: "",
-//         todos: [newTodo]
-//       }
-//       const changedLists = lists.concat(newList)
-    
-//       return(changedLists)
-//     } 
-//     case "nextList": {
-
-//       const nextList = {
-//         id: crypto.randomUUID(),
-//         title: "",
-//         todos: [newTodo]
-//       }
-//       const changedLists = lists.concat(newList)
-    
-//       return(changedLists)
-//     } 
-
-//   } 
-// }
-
-
-
 
 
 
@@ -146,8 +115,30 @@ function App() {
     todos: testTodos2
   }
 
-  const allLists = [testListe, testListe2]
+   const allLists = [testListe, testListe2]
   
+
+
+  const [allLists2, setTodos] = useState([]);
+
+
+
+
+  
+  // Load TODOs from local storage on app startup
+  useEffect(() => {
+    const storedTodos = JSON.parse(localStorage.getItem('allLists'));
+    if (storedTodos) {
+      setTodos(storedTodos);
+    }
+  }, []);
+
+
+// Update local storage whenever TODOs change
+useEffect(() => {
+  localStorage.setItem('allLists', JSON.stringify(allLists));
+}, [allLists]);
+
   
   const [list, dispatch] = useReducer(
     todosReducer,
