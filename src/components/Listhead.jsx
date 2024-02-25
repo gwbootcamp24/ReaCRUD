@@ -1,36 +1,43 @@
+import { useState } from 'react'
 import Button from "./Button";
 
-const Listhead = ({listTitle}) => {
+const Listhead = ({ currentList, allLists, onPageList, onChangeTitle }) => {
 
+    const [isEditing, setIsEditing] = useState(false);
 
-    function handleClick() {
-        const nextShapes = shapes.map(shape => {
-          if (shape.type === 'square') {
-            // No change
-            return shape;
-          } else {
-            // Return a new circle 50px below
-            return {
-              ...shape,
-              y: shape.y + 50,
-            };
-          }
-        });
-        // Re-render with the new array
-        setShapes(nextShapes);
-      }
+    let hlContent 
+    if (isEditing) { 
+        hlContent = (
+            <>
+            <input
+                value={currentList.title}
+                onChange={e => {
+                    onChangeTitle({
+                    ...currentList,
+                    title: e.target.value
+                });
+                }} />
+            <button onClick={() => setIsEditing(false)}>
+                Save
+            </button>
+            </>
+        );
+    } else {
+        hlContent = (<h1 key="listTitle">{currentList.title}</h1>)
+    }
 
-
-
-
-
+    
     return ( 
         <>
             <div className="listTop">
-                <Button key="lastList" myClass="lastList" myText="🡐" />    
-                <h1 key="listTitle">{listTitle}</h1>
-                <Button key="EditList" {...{myClass:"test", myText: "Edit"}} />
-                <Button key="nextList" myClass="nextList" myText="🡒" />
+                <Button key="lastList" myClass="lastList" onClick={() => onPageList(currentList, allLists, 'left')} myText="🡐"  />  
+
+
+                
+                {hlContent}
+
+                <Button key="EditList" {...{myClass:"test", myText: "Edit"}} onClick={() => setIsEditing(true)} />
+                <Button key="nextList" myClass="nextList" onClick={() => onPageList(currentList, allLists, 'left')} myText="🡒" />
             </div>
         </>
     )

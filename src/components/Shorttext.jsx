@@ -1,4 +1,6 @@
 const Shorttext = ({shortText, isEditing, setIsEditing,onChange, todo}) => {
+  // console.log(onChange)
+
     let taskContent;
     if (isEditing) {
         taskContent = (
