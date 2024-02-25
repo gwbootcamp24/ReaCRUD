@@ -4,15 +4,15 @@ import Shorttext from './Shorttext'
 import Datepicker2 from './Datepicker2'
 
 const Todo = ({shortText,onChange, todo}) => {
+
     const [isEditing, setIsEditing] = useState(false);
     return (
         <>
         <div className="todoWrapper">
-            <Shorttext shortText={shortText} isEditing={isEditing} setIsEditing={setIsEditing} onChange={onChange} todo={todo} />
+        <Shorttext shortText={shortText} isEditing={isEditing} setIsEditing={setIsEditing} onChange={onChange} todo={todo} />
             <div className="controls">
                 <div className="btnRow">
                     <Button key={1} {...{myClass:"test", myText: "Edit"}} onClick={() => {
-                        console.log("hello")
                         setIsEditing(true)} 
                     }
                         

@@ -9,7 +9,8 @@ import Listhead from './components/Listhead'
 
 
 
-function tasksReducer(tasks, action) {
+function todosReducer(tasks, action) {
+  console.log("fffffffffffffffffffffffffffff", tasks)
   switch (action.type) {
     case 'added': {
       return [...tasks, {
@@ -19,13 +20,20 @@ function tasksReducer(tasks, action) {
       }];
     }
     case 'changed': {
-      return tasks.map(t => {
+      const changedList = tasks.todos.map(t => {
         if (t.id === action.task.id) {
           return action.task;
         } else {
           return t;
         }
       });
+      return {
+        title: "sioldfiuzahsi",
+        todos: changedList
+
+      }
+        
+
     }
     case 'deleted': {
       return tasks.filter(t => t.id !== action.id);
@@ -60,11 +68,6 @@ function App() {
 
   ]
 
-  const [tasks, dispatch] = useReducer(
-    tasksReducer,
-    testTodos
-  );
-
 
   const listTitle="My Title for the List"
   const listTitle2="2.List"
@@ -79,40 +82,46 @@ function App() {
     todos: testTodos2
   }
 
-
   const testListen = [testListe, testListe2]
+  
+  
+  const [list, dispatch] = useReducer(
+    todosReducer,
+    testListen[0]
+  );
+
+
 
   let initialListId = 0;
 
   
-    const [list, setList] = useState(testListen[0]);
+    const [list2, setList] = useState(testListen[0]);
   
     function handleClick() {
       let nextListId = (initialListId + 1) % 2;
       let nextList = testListen[nextListId];
-      console.log(nextListId);
       setList(nextList);
     }
-    function handleChangeTask(task) {
+
+    function handleChangeTodo(todo) {
       dispatch({
         type: 'changed',
-        task: task
+        task: todo
       });
     }
   
-    function handleDeleteTask(taskId) {
+    function handleDeleteTodo(taskId) {
       dispatch({
         type: 'deleted',
         id: taskId
       });
     }
   
-  
   return (
     <>
       <button key={23232}  onClick={handleClick}>ergewrgergerg</button>
       <Listhead listTitle={listTitle} />
-        <TodoList data={list}  onChangeTask={handleChangeTask} onDeleteTask={handleDeleteTask} />
+        <TodoList data={list}  onChangeTodo={handleChangeTodo} onDeleteTodo={handleDeleteTodo} />
          
     </>
   )
